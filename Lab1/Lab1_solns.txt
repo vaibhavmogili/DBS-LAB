@@ -1,0 +1,42 @@
+1.
+create table EMPLOYEE(
+emp_no number(5),
+emp_name varchar(20),
+emp_address varchar(30));
+
+2.
+insert into EMPLOYEE values (12001, 'Saurabh', 'Mexico City');
+insert into EMPLOYEE values (12002, 'Saurav', 'Abu Dhabi');
+insert into EMPLOYEE values (12003, 'Raja', 'Vizag');
+insert into EMPLOYEE values (12004, 'Gautham', 'Manipal');
+insert into EMPLOYEE values (12005, 'Likith', 'Mangalore');
+
+insert into EMPLOYEE values (&emp_no, &emp_name, &emp_address);
+
+3.
+select emp_name from EMPLOYEE;
+
+4.
+select emp_name from EMPLOYEE where emp_address='Manipal';
+
+5.
+alter table EMPLOYEE add(Salary number(8));
+
+6.
+update EMPLOYEE set Salary='10000005' where emp_name='Saurabh Kailas';
+update EMPLOYEE set Salary='10000004' where emp_name='Saurav Vinodh';
+update EMPLOYEE set Salary='10000003' where emp_name='Raja Reddy';
+update EMPLOYEE set Salary='10000002' where emp_name='Gautham';
+update EMPLOYEE set Salary='10000001' where emp_name='Likith';
+
+7.
+desc EMPLOYEE
+
+8.
+delete from EMPLOYEE where emp_address='Mangalore';
+
+9.
+rename EMPLOYEE to EMPLOYEE1;
+
+10.
+drop table EMPLOYEE1;

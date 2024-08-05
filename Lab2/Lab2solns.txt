@@ -1,0 +1,122 @@
+1.
+create table Employee(
+EmpNo number(10) primary key,
+EmpName varchar(15) not null,
+Gender varchar(1) not null,
+Salary numeric(10,2) not null,
+Address varchar(15) not null,
+DNo number(6),
+check(Gender in('F','M')),
+foreign key(DNo) references Department(DeptNo));
+
+2.
+create table Department(
+DeptNo number(6) primary key,
+DeptName varchar(10) unique,
+Location varchar(20));
+
+3.
+foreign key(DNo) references Department(DeptNo)
+
+4.
+insert into Department values(555123, 'CSE', 'Academic Block 5');
+insert into Department values(555145, 'IT', 'Academic Block 4');
+insert into Department values(555167, 'MECH', 'Academic Block 3');
+insert into Employee values(210905033, 'Saurabh', 'M', 1000000, 'Manipal', 555123);
+insert into Employee values(210905078, 'Atharva', 'M', 1200000, 'Udupi', 555145);
+insert into Employee values(210905011, 'Shreya', 'F', 1450000, 'Hyderabad', 555167);
+
+5.
+insert into Employee values(210905033, 'Messi', 'MALE', 1000000, 'Manipal', 555123);    //Value too large for Gender
+insert into Employee values(210905078, 'Shruti', 'M', 1200000, 'Udupi', 111111);	//Parent key not declared
+
+6.
+delete from Department where DeptNo=555123;   	//Integrity constraint violated - child record
+
+7.
+alter table Employee drop column DNo;
+alter table Employee add DNo number(6);
+alter table Employee add constraint cns foreign key(DNo) references Department(DeptNo) on DELETE CASCADE;
+update Employee set DNo=555123 where EmpNo=210905033;
+update Employee set DNo=555145 where EmpNo=210905078;
+delete from Department where DeptNo=555123;
+
+8.
+delete from Employee;
+alter table Employee modify (salary number(6) default(10000));
+alter table Employee add constraint salary_check check(Salary>10000);
+insert into Employee values(210905033, 'Saurabh', 'M', 10, 'Manipal', 555123);  	//check constraint violated
+
+9.
+select name, dept_name from student;
+
+10.
+select name from instructor where dept_name='Comp. Sci.';
+
+11.
+select title from course where dept_name='Comp. Sci.' and credits=3;
+
+12.
+select course_id,title from takes natural join course where id=12345;
+
+13.
+select name from instructor where salary between 40000 and 90000;
+
+14.
+select distinct ID
+from instructor
+where ID not in (select ID
+                 from instructor natural join teaches);
+
+15. 
+select name, title, takes.year
+from student, takes, section, course
+where room_number=3128
+and	takes.ID=student.ID
+and course.course_id=section.course_id
+and course.course_id=takes.course_id
+and takes.year=section.year
+and takes.sec_id=section.sec_id
+and section.semester=takes.semester;
+
+16.
+select name, course_id, title as c_name
+from (student natural join takes) join course using(course_id)
+where year=2009;
+
+
+17.
+select name, salary as inst_salary
+from instructor
+where salary >some (select name, salary
+                   from instructor
+                   where dept_name='Comp. Sci.');
+
+18.
+select name, dept_name
+from instructor
+where dept_name like '%ol%';
+
+19.
+select name, length(name)
+from student;
+
+20.
+select distinct dept_name, substring(dept_name, 3, 3)
+from department;
+
+21.
+select upper(name)
+from instructor;
+
+22.
+select coalesce(tot_cred, 0) from Student;
+
+23.
+select distinct name, salary, salary/3
+from instructor;
+
+24.
+select name, to_char(to_date(DOB, 'DD-MON-YYYY')) from instructor;
+select name, to_char(to_date(DOB, 'DD-MON-YY')) from instructor;
+select name, to_char(to_date(DOB, 'DD-MM-YYYY')) from instructor;

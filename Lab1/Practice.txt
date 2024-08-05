@@ -1,0 +1,15 @@
+create table STUDENT(
+reg_no number(5),
+stu_name varchar(20),
+stu_age number(5),
+stu_dob date,
+subject1_marks number(4,2),
+subject2_marks number(4,2),
+subject3_marks number(4,1));
+
+insert into STUDENT values (12345, 'Saurabh', 8, '29-mar-03', 95, 96, 97);
+
+clear screen
+
+
+

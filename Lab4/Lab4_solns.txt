@@ -1,0 +1,149 @@
+1.
+select course_id, count(ID) as number_of_students
+from takes
+group by course_id;
+
+2.
+select dept_name, count(distinct ID)
+from student
+group by dept_name
+having count(distinct ID)>3;
+
+3.
+select dept_name, count(course_id) as no_of_courses
+from course
+group by dept_name;
+
+4.
+select dept_name, avg(salary) as avg_salary
+from instructor
+group by dept_name
+having avg(salary)>42000;
+
+5.
+select sec_id, count(ID)
+from takes
+where semester='Spring'
+and year=2009
+group by sec_id;
+
+6.
+select *
+from prereq
+order by course_id asc;
+
+7.
+select * from instructor
+order by salary desc;
+
+8.
+select dept_name, sum(salary)
+from instructor
+group by dept_name
+having sum(salary) in (select max(sum(salary)) 
+			from instructor
+			group by dept_name);
+ 
+9.
+select dept_name, avg_salary
+from (select dept_name, avg(salary) as avg_salary
+	from instructor
+	group by dept_name)
+where avg_salary>42000;
+
+10.
+select max(enrolment)
+from (select count(ID) as enrolment
+	from takes
+	where semester='Spring'
+	and year=2010
+	group by sec_id);
+
+11.
+select distinct ID, name
+from instructor natural join teaches
+where course_id in (select course_id
+			from student natural join takes
+			where dept_name='Comp. Sci.');
+
+12.
+select dept_name, avg_salary, no_instr
+from (select dept_name, avg(salary) as avg_salary, count(distinct ID) as no_instr
+	from instructor
+	group by dept_name
+	having avg(salary)>50000)
+where no_instr>2;
+
+13.
+with max_budget(value) as
+	(select max(budget)
+		from department)
+select dept_name, budget
+from department, max_budget
+where department.budget=max_budget.value;
+
+14.
+with dept_total(dept_name, value) as
+	(select dept_name, sum(salary)
+		from instructor
+		group by dept_name), 
+     avg_dept_total(value) as 
+	(select avg(value)
+	from dept_total)
+select dept_name
+from dept_total, avg_dept_total
+where dept_total.value>avg_dept_total.value;
+
+15.
+with enrol(value) as
+	(select count(distinct ID)
+	from takes
+	group by sec_id
+
+17.
+savepoint s1;
+select * from instructor;
+delete from instructor
+where dept_name='Finance';
+select * from instructor;
+rollback to s1;
+select * from instructor; 
+
+18.
+savepoint s2;
+select * from course;
+delete from course where dept_name='Comp. Sci.';
+select * from course;
+rollback to s2;
+select * from course;
+
+19.
+savepoint s3;
+select dept_name from student;
+update student 
+set dept_name='History'
+where dept_name='Comp. Sci.';
+select dept_name from student;
+rollback to s3;
+select dept_name from student;
+
+
+
+LAB 3
+18.
+create view all_courses as
+	select sec_id, building, room_number
+	from course natural join section
+	where dept_name='Physics'
+	and semester='Fall'
+	and year=2009;
+
+19.
+select * from all_courses;
+
+20.
+create view department_total_salary as
+	select dept_name, sum(salary) as salary_sum
+	from instructor
+	group by dept_name;
+select * from department_total_salary;	
